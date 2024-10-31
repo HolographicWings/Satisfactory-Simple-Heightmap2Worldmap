@@ -56,13 +56,13 @@ public class SimpleHeightmapConverter
                     case < waterLevel:
                         switch (grayValue)
                         {
-                            case < 20:
+                            case < (waterLevel - 30):
                                 newColor = waterColor4;
                                 break;
-                            case < 30:
+                            case < (waterLevel - 20):
                                 newColor = waterColor3;
                                 break;
-                            case < 40:
+                            case < (waterLevel - 10):
                                 newColor = waterColor2;
                                 break;
                             default:
