@@ -17,7 +17,7 @@ public class SimpleHeightmapConverter
             Console.WriteLine("Image saved !");
     }
 
-    const byte waterlevel = 50;
+    const byte waterLevel = 50;
     const byte surfaceStepSize = 5;
     public static Bitmap ProcessHeightmap(Bitmap heightmap)
     {
@@ -44,8 +44,8 @@ public class SimpleHeightmapConverter
 
                 switch(grayValue)
                 {
-                    case >= waterlevel:
-                        double gradientFactor = ((grayValue - waterlevel)/ surfaceStepSize * surfaceStepSize) / 205.0;
+                    case >= waterLevel:
+                        double gradientFactor = ((grayValue - waterLevel) / surfaceStepSize * surfaceStepSize) / (double)(255- waterLevel);
 
                         byte red = (byte)(lowColor.R + (highColor.R - lowColor.R) * gradientFactor);
                         byte green = (byte)(lowColor.G + (highColor.G - lowColor.G) * gradientFactor);
@@ -53,7 +53,7 @@ public class SimpleHeightmapConverter
 
                         newColor = Color.FromArgb(red, green, blue);
                         break;
-                    case < waterlevel:
+                    case < waterLevel:
                         switch (grayValue)
                         {
                             case < 20:
@@ -91,7 +91,7 @@ public class SimpleHeightmapConverter
             {
                 byte grayValue = (byte)(heightmap.GetPixel(x, y).R / surfaceStepSize * surfaceStepSize);
 
-                if (grayValue >= waterlevel)
+                if (grayValue >= waterLevel)
                 {
                     byte minValue = grayValue;
                     byte maxValue = grayValue;
@@ -100,7 +100,7 @@ public class SimpleHeightmapConverter
                     foreach ((int, int) v in GetNeighborPixels(x, y, width, height))
                     {
                         neighbor = (byte)(heightmap.GetPixel(v.Item1, v.Item2).R / surfaceStepSize * surfaceStepSize);
-                        if (neighbor < waterlevel)
+                        if (neighbor < waterLevel)
                             postProcessedImage.SetPixel(x, y, Color.FromArgb(32, 32, 32));
                         else if (neighbor < minValue)
                             minValue = neighbor;
